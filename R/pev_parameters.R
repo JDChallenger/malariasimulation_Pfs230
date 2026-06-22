@@ -203,7 +203,8 @@ set_mass_pev <- function(
   min_wait,
   booster_spacing,
   booster_coverage,
-  booster_profile
+  booster_profile,
+  adult_scaling
   ) {
   stopifnot(all(timesteps >= 1))
   stopifnot(min_wait >= 0)
@@ -211,6 +212,7 @@ set_mass_pev <- function(
   stopifnot(all(min_ages >= 0 & max_ages >= 0))
   stopifnot(all(booster_spacing > 0))
   stopifnot(all(booster_coverage >= 0 & booster_coverage <= 1))
+  stopifnot(adult_scaling <= 1 && adult_scaling > 0)
   if (length(min_ages) != length(max_ages)) {
     stop('min and max ages do not align')
   }
@@ -248,5 +250,6 @@ set_mass_pev <- function(
   parameters$mass_pev_booster_spacing <- booster_spacing
   parameters$mass_pev_booster_coverage <- booster_coverage
   parameters$mass_pev_profile_indices <- profile_indices
+  parameters$mass_pev_adult_scaling <- adult_scaling
   parameters
 }

@@ -210,14 +210,32 @@ calculate_pev_antibodies <- function(
   rho,
   ds,
   dl,
+  age_agent, # JDC: for age-dependent scaling
   parameters
   ) {
-  cs * (
-    rho * exp(-t * log(2) / ds) + (
-      1 - rho
-    ) * exp(-t * log(2) / dl)
-  )
-}
+  
+  #use vnapply
+  vnapply(
+    seq_along(age_agent),
+    function(i) {
+      #unpack params
+      age <- age_agent[[i]] # age
+      tt <- t[[i]]
+      #And do the same with the others! Hard coded below, for now...
+  
+      scaling <- 1
+      if(age > 16*365){
+        scaling <- parameters$mass_pev_adult_scaling
+      }
+  
+      cs[[i]] * (
+        rho[[i]] * exp(-tt * log(2) / ds[[i]]) + (
+          1 - rho[[i]]
+        ) * exp(-tt * log(2) / dl[[i]])
+      ) * scaling # JDC: 
+    } 
+  )    
+} 
 
 calculate_pev_efficacy <- function(antibodies, vmax, beta, alpha) {
   vmax * (
