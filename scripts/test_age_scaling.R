@@ -307,7 +307,7 @@ tbv_paramsC <- set_tbv(
 out4C <- run_simulation(sim_length, tbv_paramsC)
 
 
-#cumulative inc
+#cumulative inc (test)
 tt <- tbv_params$tbv_timesteps[1]
 
 ci <- out1$n_inc_clinical_0_36500[(tt):sim_length]
